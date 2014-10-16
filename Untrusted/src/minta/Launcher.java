@@ -1,4 +1,4 @@
-package szoftverfolyamat.minta;
+package minta;
 
 import javax.swing.JFrame;
 import javax.swing.JButton;

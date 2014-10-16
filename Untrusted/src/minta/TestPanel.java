@@ -1,4 +1,4 @@
-package szoftverfolyamat.minta;
+package minta;
 
 import java.awt.Color;
 import java.awt.Dimension;
