@@ -1,4 +1,4 @@
-package minta;
+package untrusted;
 
 import java.awt.Color;
 import java.awt.Dimension;
