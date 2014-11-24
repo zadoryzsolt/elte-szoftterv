@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<level name="test level A">
+
+<invisible>
+<![CDATA[
+// test Elso sor; rejtett
+level.initialize(700, 500, 0x383330);
+]]>
+</invisible>
+
+<readonly>
+<![CDATA[                    
+// test masodik sor; nem irhato
+level.setPlayer(450, 200, 50, 72);
+level.createComputer(250, 250, 55, 55);
+level.createSavePoint(400, 400, 55, 55);
+level.createGhost(75, 75, [500, 500, 400, 500], [400, 300, 200, 300], 8);
+level.createExit(40, 40, 100, 50);
+level.createTrap(240, 40, 50, 50);
+]]>
+</readonly>
+
+<editable>
+<![CDATA[
+// test harmadik sor;  irhato  
+for(var i=0; i<35; i++) { 
+   level.createWall("STONE_BRICK",  
+                    i*20, 0, 20, 20);  
+   level.createWall("STONE_BRICK",  
+                    i*20, 480, 20, 20);  
+} 
+for(var i=1; i<24; i++) { 
+   level.createWall("STONE_BRICK",  
+                    0, i*20, 20, 20);  
+   level.createWall("STONE_BRICK",  
+                    680, i*20, 20, 20);  
+}  
+]]>
+</editable>
+
+<readonly>
+<![CDATA[                    
+// test negyedik sor; nem irhato 
+var w = 40; 
+var h = 40; 
+for(var i=0; i<6; i++) {  
+ level.createWall("YELLOW_BRICK", 
+                  180+i*w, 200, w, h); 
+} 
+for(var i=0; i<6; i++) {  
+ level.createWall("YELLOW_BRICK",  
+                  180, 200 + h + i*h, w, h); 
+} 
+]]>
+</readonly>
+    
+</level>

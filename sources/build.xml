@@ -1,0 +1,158 @@
+<?xml version="1.0"?>
+<project default="help" name="SzoftverFolyamat-1">
+    <property file="build.properties" />
+
+    <target name="help">
+        <echo> 
+            Az Ant task-ek:  
+                clean                   
+                build.model
+                build.menu
+                build.game
+                build.commons
+                dist.model
+                dist.menu
+                dist.game
+                dist.commons
+                all
+                test
+        </echo>
+    </target>
+
+    <!-- clean -->
+    <target name="build.clean">
+        <delete dir="${build.dir}"/>
+        <mkdir dir="${build.dir}"/>
+    </target>    
+
+    <target name="dist.clean">
+        <delete dir="${dist.dir}"/>
+        <mkdir dir="${dist.dir}"/>
+    </target>   
+    
+    <target name="clean"
+            depends="build.clean, dist.clean">
+    </target>       
+    
+    <!-- menu -->
+    <target name="build.menu"
+            depends="clean">
+        <javac classpath="${klasspath}"
+                destdir="${build.dir}"
+                includeantruntime="false">
+            <src path="${menu.fsp}"/>
+            <src path="${commons.fsp}"/>
+            <src path="${game.fsp}"/>
+            <src path="${model.fsp}"/>
+        </javac>
+    </target>    
+
+    <target name="dist.menu"
+            depends="build.menu">              
+        <jar destfile="${dist.dir}/${menu.dist.jar}">
+            <fileset dir="${build.dir}"
+                    includes="${menu.rsp}/**"/> 
+            <manifest>
+                <attribute name="Main-Class" 
+                        value="${menu.cp}.Launcher"/>  
+                <attribute name="Class-Path" 
+                        value="${model.dist.jar} ${game.dist.jar} ${commons.dist.jar}"/> 
+            </manifest>
+        </jar>      
+    </target> 
+    
+    <!-- game -->    
+    <target name="build.game"
+            depends="clean">
+        <javac classpath="${klasspath}"
+                destdir="${build.dir}"
+                includeantruntime="false">
+            <src path="${game.fsp}"/>
+            <src path="${model.fsp}"/>
+            <src path="${menu.fsp}"/>
+            <src path="${commons.fsp}"/>
+        </javac>
+        
+        <copy todir="${build.dir}">
+                <fileset dir="${res.dir}"
+                        includes="img/**"/>
+        </copy>        
+    </target>      
+    
+    <target name="dist.game"
+            depends="build.game">              
+        <jar destfile="${dist.dir}/${game.dist.jar}">
+            <fileset dir="${build.dir}"
+                    includes="${game.rsp}/**, img/**"/> 
+        </jar>        
+    </target>  
+    
+    <!-- commons -->  
+    <target name="build.commons"
+            depends="clean">
+        <javac classpath="${klasspath}"
+                destdir="${build.dir}"
+                includeantruntime="false">
+            <src path="${commons.fsp}"/>
+        </javac>
+        
+        <copy todir="${build.dir}">
+                <fileset dir="${res.dir}"
+                        includes="fonts/**"/>
+        </copy>
+    </target> 
+    
+    <target name="dist.commons"
+            depends="build.commons">              
+        <jar destfile="${dist.dir}/${commons.dist.jar}">
+            <fileset dir="${build.dir}"
+                    includes="${commons.rsp}/**, fonts/**"/> 
+        </jar>      
+    </target>  
+    
+    <!-- model --> 
+    <target name="build.model"
+            depends="clean">
+        <javac classpath="${klasspath}"
+                destdir="${build.dir}"
+                includeantruntime="false">
+            <src path="${model.fsp}"/>
+        </javac>
+    </target> 
+    
+    <target name="dist.model"
+            depends="build.model">              
+        <jar destfile="${dist.dir}/${model.dist.jar}">
+            <fileset dir="${build.dir}"
+                    includes="${model.rsp}/**"/> 
+            <service type="${model.cp}.Configuration"
+                    provider="${model.cp}.ConfigurationFile"/>
+            <service type="${model.cp}.MenuCallsDao"
+                    provider="${model.cp}.DaoForMenu"/>
+        </jar>      
+    </target>  
+    
+    <!-- all, test -->
+    <target name="all"
+            depends="dist.clean, dist.menu, dist.model, dist.commons, dist.game"/>
+    
+    <target name="test"
+            depends="all">
+        <copy todir="${dist.dir}">
+            <fileset dir="${misc.dir}"
+                    includes="**"/>
+        </copy>
+        
+        <java classname="${menu.cp}.Launcher"
+                classpath="${dist.dir}/${menu.dist.jar};${dist.dir}/${game.dist.jar};${dist.dir}/${commons.dist.jar};${dist.dir}/${model.dist.jar}"
+                fork="true"
+                dir="${dist.dir}">
+            <arg value="/h"/>
+            
+            <!--classpath>
+                <pathelement location="dist/test.jar"/>
+                <pathelement path="${java.class.path}"/>
+            </classpath-->
+        </java>
+    </target>       
+</project>

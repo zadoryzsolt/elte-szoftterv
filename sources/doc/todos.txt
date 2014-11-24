@@ -1,0 +1,16 @@
+- Image provider
+
++ Rich / generic panel
+
++ key controls on Game Area : nyolc irany + use item
+
++ generic button: mover, 
+
+- app létrehozasi workflow: init graphics
+
+- text area szerkesztheto es vedett szövegrészekkel
+
+- text area copy paste
+
+- text area mouse nyil helyett kurzor
+
